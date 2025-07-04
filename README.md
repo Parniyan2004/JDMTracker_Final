@@ -58,10 +58,10 @@ JDM_TRACKER_PROJECT/
 
 
 ```bash
-### Step 1 – Compile:
+Step 1 – Compile:
 javac -d out -cp "src/main/lib/sqlite-jdbc-3.50.2.0.jar" src/dao/*.java src/model/*.java src/main/*.java
 
-### Step 2 – Run:
+Step 2 – Run:
 ```bash
 java -cp "src/main/lib/sqlite-jdbc-3.50.2.0.jar;out" main.Main
 
