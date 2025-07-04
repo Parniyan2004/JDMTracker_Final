@@ -62,10 +62,10 @@ JDM_TRACKER_PROJECT/
 javac -d out -cp "src/main/lib/sqlite-jdbc-3.50.2.0.jar" src/dao/*.java src/model/*.java src/main/*.java
 
 ### Step 2 – Run:
-```
+```bash
 java -cp "src/main/lib/sqlite-jdbc-3.50.2.0.jar;out" main.Main
 
-
+```
 ## Dataset
 
 Dataset used from PatientX folder includes:
