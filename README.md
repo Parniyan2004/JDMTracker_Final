@@ -56,9 +56,9 @@ JDM_TRACKER_PROJECT/
 - SQLite JDBC driver (included in `lib/`)  
 - DB Browser for SQLite (for importing CSV)  
 
-### Step 1 – Compile:
-```bash
 
+```bash
+### Step 1 – Compile:
 javac -d out -cp "src/main/lib/sqlite-jdbc-3.50.2.0.jar" src/dao/*.java src/model/*.java src/main/*.java
 
 ### Step 2 – Run:
