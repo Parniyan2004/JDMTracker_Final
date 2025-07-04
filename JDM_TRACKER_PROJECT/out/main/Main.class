@@ -1,0 +1,139 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+package main;
+
+import dao.Database;
+import dao.ExerciseDAO;
+import dao.PatientDAO;
+import dao.ReportDAO;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
+import model.Exercise;
+import model.Patient;
+import model.Report;
+
+public class Main {
+   private static Scanner scanner;
+
+   public Main() {
+   }
+
+   public static void main(String[] var0) {
+      try {
+         Database.initialize();
+         menu();
+      } catch (Exception var2) {
+         var2.printStackTrace();
+      }
+
+   }
+
+   public static void menu() throws SQLException {
+      while(true) {
+         System.out.println("\n--- JDM CMAS Tracker ---");
+         System.out.println("1. Register new patient");
+         System.out.println("2. Assign new exercise");
+         System.out.println("3. Add CMAS report");
+         System.out.println("4. View patient reports");
+         System.out.println("0. Exit");
+         System.out.print("Choose option: ");
+         int var0 = scanner.nextInt();
+         scanner.nextLine();
+         switch (var0) {
+            case 0:
+               System.exit(0);
+               break;
+            case 1:
+               registerPatient();
+               break;
+            case 2:
+               assignExercise();
+               break;
+            case 3:
+               addReport();
+               break;
+            case 4:
+               viewReports();
+               break;
+            default:
+               System.out.println("Invalid choice.");
+         }
+      }
+   }
+
+   private static void registerPatient() throws SQLException {
+      System.out.print("Patient name: ");
+      String var0 = scanner.nextLine();
+      System.out.print("Age: ");
+      int var1 = scanner.nextInt();
+      scanner.nextLine();
+      PatientDAO.insert(new Patient(var0, var1));
+      System.out.println("Patient registered.");
+   }
+
+   private static void assignExercise() throws SQLException {
+      List var0 = PatientDAO.listAll();
+      if (var0.isEmpty()) {
+         System.out.println("No patients found.");
+      } else {
+         Iterator var1 = var0.iterator();
+
+         while(var1.hasNext()) {
+            Patient var2 = (Patient)var1.next();
+            System.out.printf("%d: %s (%d y/o)\n", var2.getId(), var2.getName(), var2.getAge());
+         }
+
+         System.out.print("Enter patient ID: ");
+         int var5 = scanner.nextInt();
+         scanner.nextLine();
+         System.out.print("Exercise name: ");
+         String var6 = scanner.nextLine();
+         System.out.print("Description: ");
+         String var3 = scanner.nextLine();
+         String var4 = LocalDateTime.now().toString();
+         ExerciseDAO.insert(new Exercise(var5, var6, var3, var4));
+         System.out.println("Exercise assigned.");
+      }
+   }
+
+   private static void addReport() throws SQLException {
+      System.out.print("Exercise ID: ");
+      int var0 = scanner.nextInt();
+      scanner.nextLine();
+      System.out.print("CMAS Score (0-52): ");
+      int var1 = scanner.nextInt();
+      scanner.nextLine();
+      System.out.print("Muscle Status: ");
+      String var2 = scanner.nextLine();
+      String var3 = LocalDateTime.now().toString();
+      ReportDAO.insert(new Report(var0, var1, var2, var3));
+      System.out.println("Report added.");
+   }
+
+   private static void viewReports() throws SQLException {
+      System.out.print("Patient ID: ");
+      int var0 = scanner.nextInt();
+      scanner.nextLine();
+      List var1 = ExerciseDAO.getByPatient(var0);
+      Iterator var2 = var1.iterator();
+
+      while(var2.hasNext()) {
+         Exercise var3 = (Exercise)var2.next();
+         System.out.printf("Exercise %d - %s: %s\n", var3.getId(), var3.getName(), var3.getDate());
+         List var4 = ReportDAO.getByExercise(var3.getId());
+         Iterator var5 = var4.iterator();
+
+         while(var5.hasNext()) {
+            Report var6 = (Report)var5.next();
+            System.out.printf("  â†’ Score: %d | Status: %s | Date: %s\n", var6.getCmasScore(), var6.getMuscleStatus(), var6.getCreatedAt());
+         }
+      }
+
+   }
+
+   static {
+      scanner = new Scanner(System.in);
+   }
+}

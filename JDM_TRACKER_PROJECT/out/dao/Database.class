@@ -1,0 +1,32 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Database {
+   private static final String URL = "jdbc:sqlite:jdm.db";
+   private static Connection conn;
+
+   public Database() {
+   }
+
+   public static Connection getConnection() throws SQLException {
+      if (conn == null) {
+         conn = DriverManager.getConnection("jdbc:sqlite:jdm.db");
+      }
+
+      return conn;
+   }
+
+   public static void initialize() throws SQLException {
+      Connection var0 = getConnection();
+      Statement var1 = var0.createStatement();
+      var1.executeUpdate("    CREATE TABLE IF NOT EXISTS patient (\n        id INTEGER PRIMARY KEY AUTOINCREMENT,\n        name TEXT NOT NULL,\n        age INTEGER NOT NULL\n    );\n");
+      var1.executeUpdate("    CREATE TABLE IF NOT EXISTS exercise (\n        id INTEGER PRIMARY KEY AUTOINCREMENT,\n        patient_id INTEGER NOT NULL,\n        name TEXT NOT NULL,\n        description TEXT,\n        date TEXT NOT NULL,\n        FOREIGN KEY(patient_id) REFERENCES patient(id)\n    );\n");
+      var1.executeUpdate("    CREATE TABLE IF NOT EXISTS report (\n        id INTEGER PRIMARY KEY AUTOINCREMENT,\n        exercise_id INTEGER NOT NULL,\n        cmas_score INTEGER NOT NULL,\n        muscle_status TEXT NOT NULL,\n        created_at TEXT NOT NULL,\n        FOREIGN KEY(exercise_id) REFERENCES exercise(id)\n    );\n");
+      var1.close();
+   }
+}

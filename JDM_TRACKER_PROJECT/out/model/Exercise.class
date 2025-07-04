@@ -1,0 +1,42 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+package model;
+
+public class Exercise {
+   private int id;
+   private int patientId;
+   private String name;
+   private String description;
+   private String date;
+
+   public Exercise(int var1, int var2, String var3, String var4, String var5) {
+      this.id = var1;
+      this.patientId = var2;
+      this.name = var3;
+      this.description = var4;
+      this.date = var5;
+   }
+
+   public Exercise(int var1, String var2, String var3, String var4) {
+      this(-1, var1, var2, var3, var4);
+   }
+
+   public int getId() {
+      return this.id;
+   }
+
+   public int getPatientId() {
+      return this.patientId;
+   }
+
+   public String getName() {
+      return this.name;
+   }
+
+   public String getDescription() {
+      return this.description;
+   }
+
+   public String getDate() {
+      return this.date;
+   }
+}

@@ -1,0 +1,32 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+package dao;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import model.Patient;
+
+public class PatientDAO {
+   public PatientDAO() {
+   }
+
+   public static void insert(Patient var0) throws SQLException {
+      PreparedStatement var1 = Database.getConnection().prepareStatement("INSERT INTO patient(name, age) VALUES(?, ?)");
+      var1.setString(1, var0.getName());
+      var1.setInt(2, var0.getAge());
+      var1.executeUpdate();
+   }
+
+   public static List<Patient> listAll() throws SQLException {
+      ArrayList var0 = new ArrayList();
+      ResultSet var1 = Database.getConnection().createStatement().executeQuery("SELECT * FROM patient");
+
+      while(var1.next()) {
+         var0.add(new Patient(var1.getInt("id"), var1.getString("name"), var1.getInt("age")));
+      }
+
+      return var0;
+   }
+}

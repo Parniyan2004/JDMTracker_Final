@@ -1,0 +1,36 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+package dao;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import model.Exercise;
+
+public class ExerciseDAO {
+   public ExerciseDAO() {
+   }
+
+   public static void insert(Exercise var0) throws SQLException {
+      PreparedStatement var1 = Database.getConnection().prepareStatement("INSERT INTO exercise(patient_id, name, description, date) VALUES (?, ?, ?, ?)");
+      var1.setInt(1, var0.getPatientId());
+      var1.setString(2, var0.getName());
+      var1.setString(3, var0.getDescription());
+      var1.setString(4, var0.getDate());
+      var1.executeUpdate();
+   }
+
+   public static List<Exercise> getByPatient(int var0) throws SQLException {
+      ArrayList var1 = new ArrayList();
+      PreparedStatement var2 = Database.getConnection().prepareStatement("SELECT * FROM exercise WHERE patient_id = ?");
+      var2.setInt(1, var0);
+      ResultSet var3 = var2.executeQuery();
+
+      while(var3.next()) {
+         var1.add(new Exercise(var3.getInt("id"), var0, var3.getString("name"), var3.getString("description"), var3.getString("date")));
+      }
+
+      return var1;
+   }
+}

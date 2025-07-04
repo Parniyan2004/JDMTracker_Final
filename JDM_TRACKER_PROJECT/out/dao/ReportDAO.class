@@ -1,0 +1,36 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+package dao;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import model.Report;
+
+public class ReportDAO {
+   public ReportDAO() {
+   }
+
+   public static void insert(Report var0) throws SQLException {
+      PreparedStatement var1 = Database.getConnection().prepareStatement("INSERT INTO report(exercise_id, cmas_score, muscle_status, created_at) VALUES (?, ?, ?, ?)");
+      var1.setInt(1, var0.getExerciseId());
+      var1.setInt(2, var0.getCmasScore());
+      var1.setString(3, var0.getMuscleStatus());
+      var1.setString(4, var0.getCreatedAt());
+      var1.executeUpdate();
+   }
+
+   public static List<Report> getByExercise(int var0) throws SQLException {
+      ArrayList var1 = new ArrayList();
+      PreparedStatement var2 = Database.getConnection().prepareStatement("SELECT * FROM report WHERE exercise_id = ?");
+      var2.setInt(1, var0);
+      ResultSet var3 = var2.executeQuery();
+
+      while(var3.next()) {
+         var1.add(new Report(var3.getInt("id"), var0, var3.getInt("cmas_score"), var3.getString("muscle_status"), var3.getString("created_at")));
+      }
+
+      return var1;
+   }
+}
