@@ -95,8 +95,9 @@ Visual Studio Code
 DB Browser for SQLite
 
 ## License
+This project was developed as part of the “Introduction to Software Engineering” course at **ZUYD University** (ADSAI 2025)  
+© 2025 Zahra Amiri. All rights reserved.
 
-This project was developed as part of the “Introduction to Software Engineering” course at ZUYD University (ADSAI 2025) by Zahra Amiri.
 
 
 
